@@ -122,3 +122,14 @@ Delivery Agent nhận `order` và `items` từ Order & Product Agent, sau đó t
 - Với mỗi seller, handoff variance = `order_delivered_carrier_date - shipping_limit_date` sớm nhất của seller.
 - Mọi giá trị giờ làm tròn 2 chữ số; thiếu timestamp thì variance là `null` và không kết luận trễ.
 - Agent không chọn responsible party; Policy Agent sẽ dùng kết quả này để quyết định seller hay logistics.
+
+## 2026-08-05 — Policy Agent
+
+### Contract đã chốt
+
+Policy Agent nhận handoff của Order & Product, Customer, Payment và Delivery Agent; trả `primary_issue`, `secondary_issues`, `case_status`, `root_cause_code`, `responsible_parties`, `recommended_refund_brl` và `resolution_actions`.
+
+- Chọn primary theo đúng thứ tự ưu tiên `EC_POLICY_V2` trong README.
+- Secondary issue theo thứ tự: multi item, multi seller, split payment, repeat customer, multiple categories.
+- Action bổ sung theo thứ tự quy định; không thêm `verify_payment_allocation` khi primary là `valid_split_payment`.
+- Không có rule phù hợp thì báo lỗi, không tự suy diễn nguyên nhân hoặc hoàn tiền.
