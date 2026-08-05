@@ -1,0 +1,17 @@
+{
+  "model": {
+    "name": null,
+    "parameter_size": 0,
+    "uses_llm": false
+  },
+  "framework": "Python standard library",
+  "runtime": {
+    "python_version": "3.11.9",
+    "platform": "Windows-10-10.0.26200-SP0"
+  },
+  "run": {
+    "completed_at_utc": "2026-08-05T08:42:28.725156+00:00",
+    "input_case_count": 50,
+    "failed_case_count": 0
+  }
+}

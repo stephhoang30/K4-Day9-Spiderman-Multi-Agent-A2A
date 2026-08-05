@@ -160,3 +160,9 @@ Order & Product
 ```
 
 Coordinator dựng JSON output, cắt các array theo giới hạn README, tạo evidence ID từ entity/policy đã xác định và chỉ trả kết quả khi Verifier xác nhận hợp lệ. Đọc/ghi batch 50 file và trace là trách nhiệm của `orchestration/`.
+
+## 2026-08-05 — Orchestration
+
+`BatchRunner` đọc các file `EC_*.json`, gọi Coordinator cho từng case, ghi output cùng tên và ghi đè `logging/trace.jsonl` bằng trace của lượt chạy mới nhất. Trace chứa event bắt đầu/kết thúc/lỗi của Coordinator và handoff từ từng agent.
+
+`logging/metadata.json` được tạo sau lượt chạy, ghi framework, Python runtime, thông tin model (không dùng LLM: `null`, `0`) và số case thành công/lỗi. CLI đặt tại `src/main.py`; mặc định yêu cầu đúng 50 case, `--allow-partial` chỉ dùng khi phát triển.

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+from collections.abc import Callable
 from typing import Any, Mapping
 
 from agents.customer import CustomerAgent
@@ -24,7 +25,11 @@ class CoordinatorAgent:
         self._policy = PolicyAgent()
         self._verifier = VerifierAgent()
 
-    def investigate(self, case: Mapping[str, Any]) -> dict[str, Any]:
+    def investigate(
+        self,
+        case: Mapping[str, Any],
+        on_handoff: Callable[[str, Mapping[str, Any]], None] | None = None,
+    ) -> dict[str, Any]:
         """Điều tra một case và trả JSON đã qua Verifier Agent.
 
         Raises:
@@ -35,9 +40,18 @@ class CoordinatorAgent:
         order_id = str(case["customer_request"]["claimed_order_id"])
 
         order_product = self._order_product.investigate(order_id)
+        self._emit(on_handoff, "order_product", {
+            "order_id": order_id,
+            "item_count": len(order_product.items),
+            "seller_count": len(order_product.seller_ids),
+            "product_count": len(order_product.product_ids),
+        })
         customer = self._customer.investigate(order_product.order["customer_id"] or "", order_id)
+        self._emit(on_handoff, "customer", customer.to_dict())
         payment = self._payment.investigate(order_id, order_product.items)
+        self._emit(on_handoff, "payment", payment.to_dict())
         delivery = self._delivery.investigate(order_product.order, order_product.items)
+        self._emit(on_handoff, "delivery", delivery.to_dict())
         policy = self._policy.investigate(
             order_product.order,
             order_product.items,
@@ -47,14 +61,25 @@ class CoordinatorAgent:
             payment,
             delivery,
         )
+        self._emit(on_handoff, "policy", policy.to_dict())
 
         candidate = self._build_output(
             case_id, order_id, order_product, customer, payment, delivery, policy
         )
         verification = self._verifier.verify(candidate)
+        self._emit(on_handoff, "verifier", verification.to_dict())
         if not verification.is_valid:
             raise ValueError("Output không qua Verifier Agent: " + "; ".join(verification.errors))
         return candidate
+
+    @staticmethod
+    def _emit(
+        on_handoff: Callable[[str, Mapping[str, Any]], None] | None,
+        agent_name: str,
+        handoff: Mapping[str, Any],
+    ) -> None:
+        if on_handoff is not None:
+            on_handoff(agent_name, handoff)
 
     @staticmethod
     def _build_output(
