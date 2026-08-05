@@ -111,3 +111,14 @@ payment_total_brl, difference_brl, reconciled
 - Dùng `Decimal`; số tiền trả ra làm tròn 2 chữ số thập phân.
 - `is_split_payment` là true khi có ít nhất 2 payment row.
 - Nếu order không có item thì item/freight/expected/difference/reconciled là `null`, theo yêu cầu README.
+
+## 2026-08-05 — Delivery Agent
+
+### Contract đã chốt
+
+Delivery Agent nhận `order` và `items` từ Order & Product Agent, sau đó trả ba timestamp giao hàng, `delivery_variance_hours`, `is_late_delivery`, `seller_handoff_analysis` và `late_handoff_seller_ids`.
+
+- Delivery variance = `order_delivered_customer_date - order_estimated_delivery_date`.
+- Với mỗi seller, handoff variance = `order_delivered_carrier_date - shipping_limit_date` sớm nhất của seller.
+- Mọi giá trị giờ làm tròn 2 chữ số; thiếu timestamp thì variance là `null` và không kết luận trễ.
+- Agent không chọn responsible party; Policy Agent sẽ dùng kết quả này để quyết định seller hay logistics.
