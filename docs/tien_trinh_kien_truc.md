@@ -133,3 +133,9 @@ Policy Agent nhận handoff của Order & Product, Customer, Payment và Deliver
 - Secondary issue theo thứ tự: multi item, multi seller, split payment, repeat customer, multiple categories.
 - Action bổ sung theo thứ tự quy định; không thêm `verify_payment_allocation` khi primary là `valid_split_payment`.
 - Không có rule phù hợp thì báo lỗi, không tự suy diễn nguyên nhân hoặc hoàn tiền.
+
+## 2026-08-05 — Verifier Agent
+
+### Contract đã chốt
+
+Verifier Agent nhận JSON output ứng viên từ Coordinator và trả `is_valid` cùng danh sách `errors`, không tự sửa nội dung. Các kiểm tra gồm schema top-level, giới hạn array, confidence, timestamp, tính nhất quán phép đối soát tiền, root-cause code và evidence ID tham chiếu entity/policy trong output.
