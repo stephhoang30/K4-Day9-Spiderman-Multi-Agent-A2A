@@ -18,32 +18,32 @@ class DataLoader:
 
     @property
     def orders(self):
-        return self.load("orders")
+        return self.load("olist_orders_dataset")
 
     @property
     def customers(self):
-        return self.load("customers")
+        return self.load("olist_customers_dataset")
 
     @property
     def order_items(self):
-        return self.load("order_items")
+        return self.load("olist_order_items_dataset")
 
     @property
     def order_payments(self):
-        return self.load("order_payments")
+        return self.load("olist_order_payments_dataset")
 
     @property
     def order_reviews(self):
-        return self.load("order_reviews")
+        return self.load("olist_order_reviews_dataset")
 
     @property
     def products(self):
-        return self.load("products")
+        return self.load("olist_products_dataset")
 
     @property
     def sellers(self):
-        return self.load("sellers")
+        return self.load("olist_sellers_dataset")
 
     @property
     def geolocation(self):
-        return self.load("geolocation")
+        return self.load("olist_geolocation_dataset")
