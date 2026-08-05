@@ -1,12 +1,20 @@
 from typing import Dict, Any
 import math
+import json
+import config
+
+try:
+	from services.llm import generate_completion
+except Exception:
+	generate_completion = None
 
 
 class PaymentAgent:
-	def __init__(self, repository):
+	def __init__(self, repository, use_llm: bool = True):
 		self.repo = repository
+		self.use_llm = use_llm and getattr(config, 'MODEL_NAME', None) is not None and generate_completion is not None
 
-	def analyze(self, order_id: str, items: list) -> Dict[str, Any]:
+	def _deterministic(self, order_id: str, items: list) -> Dict[str, Any]:
 		payments = self.repo.get_payments(order_id)
 		item_total = None
 		freight_total = None
@@ -34,4 +42,18 @@ class PaymentAgent:
 			'payment_types': payment_types,
 			'payment_ids': [f"{order_id}:{p.get('payment_sequential')}" for p in payments if p.get('payment_sequential') is not None]
 		}
+
+	def analyze(self, order_id: str, items: list) -> Dict[str, Any]:
+		if not self.use_llm:
+			return self._deterministic(order_id, items)
+
+		prompt = {'task': 'payment_reconciliation', 'order_id': order_id, 'items': items}
+		try:
+			raw = generate_completion(json.dumps(prompt), model=getattr(config, 'MODEL_NAME', None))
+			parsed = json.loads(raw)
+			if 'payment_total_brl' in parsed:
+				return parsed
+		except Exception:
+			pass
+		return self._deterministic(order_id, items)
 

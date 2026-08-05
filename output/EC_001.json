@@ -1,10 +1,10 @@
 {
   "case_id": "EC_001",
   "case_assessment": {
-    "primary_issue": "unsupported_late_claim",
+    "primary_issue": null,
     "secondary_issues": [],
     "case_status": "no_action",
-    "confidence": 0.6
+    "confidence": 1.0
   },
   "affected_entities": {
     "order_ids": [
@@ -66,25 +66,18 @@
     ]
   },
   "root_cause_analysis": {
-    "ranked_causes": [
+    "ranked_causes": [],
+    "responsible_parties": [
       {
-        "cause_code": "unsupported_late_claim",
-        "rank": 1
+        "party_type": "seller",
+        "party_id": "c70c1b0d8ca86052f45a432a38b73958"
       }
-    ],
-    "responsible_parties": []
+    ]
   },
-  "evidence_ids": [
-    "order:9b75cdaf2d85857ef023980e15d01546",
-    "item:9b75cdaf2d85857ef023980e15d01546:1",
-    "item:9b75cdaf2d85857ef023980e15d01546:2",
-    "9b75cdaf2d85857ef023980e15d01546:1"
-  ],
+  "evidence_ids": [],
   "financial_resolution": {
     "currency": "BRL",
     "recommended_refund_brl": 0.0
   },
-  "resolution_actions": [
-    "reject_late_refund"
-  ]
+  "resolution_actions": []
 }

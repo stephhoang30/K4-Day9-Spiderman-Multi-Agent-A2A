@@ -44,12 +44,12 @@ def main():
 
     coordinator = Coordinator(
         repository=repo,
-        customer_agent=CustomerAgent(repo),
-        order_agent=OrderAgent(repo),
-        payment_agent=PaymentAgent(repo),
-        delivery_agent=DeliveryAgent(repo),
+        customer_agent=CustomerAgent(repo, use_llm=True),
+        order_agent=OrderAgent(repo, use_llm=True),
+        payment_agent=PaymentAgent(repo, use_llm=True),
+        delivery_agent=DeliveryAgent(repo, use_llm=True),
         policy_agent=PolicyAgent(),
-        verifier_agent=VerifierAgent(),
+        verifier_agent=VerifierAgent(use_llm=True),
     )
 
     input_dir = Path('input')

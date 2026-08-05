@@ -1,11 +1,20 @@
 from typing import Dict, Any, List
+from typing import Dict, Any, List
+import json
+import config
+
+try:
+	from services.llm import generate_completion
+except Exception:
+	generate_completion = None
+
 
 class PolicyAgent:
-	def __init__(self):
-		pass
+	def __init__(self, use_llm: bool = True):
+		self.use_llm = use_llm and getattr(config, 'MODEL_NAME', None) is not None and generate_completion is not None
 
-	def decide(self, order_ctx: Dict[str, Any], payment_ctx: Dict[str, Any], delivery_ctx: Dict[str, Any]) -> Dict[str, Any]:
-		# Evaluate primary issues following README order
+	def _deterministic(self, order_ctx: Dict[str, Any], payment_ctx: Dict[str, Any], delivery_ctx: Dict[str, Any]) -> Dict[str, Any]:
+		# original deterministic logic
 		primary = None
 		actions: List[str] = []
 		refund_amount = None
@@ -14,23 +23,16 @@ class PolicyAgent:
 
 		order = order_ctx.get('order') if order_ctx else None
 		if not order:
-			primary = None
-			return {'primary_issue': primary, 'actions': actions, 'refund': None, 'responsible': responsible, 'evidence': evidence, 'confidence': 0.0}
+			return {'primary_issue': None, 'actions': [], 'refund': None, 'responsible': [], 'evidence': [], 'confidence': 0.0}
 
 		payment_total = payment_ctx.get('payment_total_brl')
-		expected_total = payment_ctx.get('expected_total_brl')
 
-		# canceled or unavailable
 		if order.get('order_status') in ('canceled',) and (payment_total or 0) > 0:
-			if order.get('order_status') == 'canceled':
-				primary = 'canceled_order_paid'
-			else:
-				primary = 'unavailable_order_paid'
+			primary = 'canceled_order_paid'
 			refund_amount = payment_total
 			actions = ['issue_full_refund']
 			responsible = [{'party_type': 'platform', 'party_id': 'OLIST_PLATFORM'}]
 		else:
-			# late delivery
 			dv = delivery_ctx.get('delivery_variance_hours')
 			late_sellers = delivery_ctx.get('late_handoff_seller_ids') or []
 			if dv is not None and dv > 0:
@@ -45,8 +47,6 @@ class PolicyAgent:
 					actions = ['refund_freight', 'review_carrier_delay']
 					responsible = [{'party_type': 'logistics_provider', 'party_id': 'LOGISTICS_PROVIDER'}]
 			else:
-				# split payment
-				payments = payment_ctx.get('payment_types') or []
 				if len(payment_ctx.get('payment_ids', [])) >= 2 and payment_ctx.get('reconciled'):
 					primary = 'valid_split_payment'
 					actions = ['explain_valid_split_payment']
@@ -56,7 +56,6 @@ class PolicyAgent:
 					actions = ['reject_late_refund']
 					refund_amount = 0
 
-		# evidence simple: order, items, payments, sellers
 		oid = order.get('order_id')
 		if oid:
 			evidence.append(f'order:{oid}')
@@ -77,4 +76,28 @@ class PolicyAgent:
 			'evidence': evidence,
 			'confidence': confidence,
 		}
+
+	def decide(self, order_ctx: Dict[str, Any], payment_ctx: Dict[str, Any], delivery_ctx: Dict[str, Any]) -> Dict[str, Any]:
+		if not self.use_llm:
+			return self._deterministic(order_ctx, payment_ctx, delivery_ctx)
+
+		# Build a concise prompt and ask the LLM to return a JSON object with required fields.
+		prompt = {
+			'instruction': 'Apply EC_POLICY_V2 and return JSON with keys: primary_issue, actions (list), refund (number), responsible (list of {party_type,party_id}), evidence (list of strings), confidence (0-1). Use only evidence ids derivable from data.' ,
+			'order': order_ctx.get('order'),
+			'items': order_ctx.get('items'),
+			'payments': {k: v for k, v in payment_ctx.items() if k != 'payment_ids'},
+			'delivery': delivery_ctx,
+		}
+
+		raw = generate_completion(json.dumps(prompt), model=getattr(config, 'MODEL_NAME', None), temperature=getattr(config, 'TEMPERATURE', 0.0), max_tokens=getattr(config, 'MAX_TOKENS', 512))
+		try:
+			parsed = json.loads(raw)
+			# ensure required fields exist
+			for k in ['primary_issue', 'actions', 'refund', 'responsible', 'evidence', 'confidence']:
+				if k not in parsed:
+					return self._deterministic(order_ctx, payment_ctx, delivery_ctx)
+			return parsed
+		except Exception:
+			return self._deterministic(order_ctx, payment_ctx, delivery_ctx)
 
