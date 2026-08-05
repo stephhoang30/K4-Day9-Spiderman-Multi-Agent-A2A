@@ -1,0 +1,59 @@
+{
+  "model": {
+    "constraint": "<=10B theo README muc 9 (moi model deu <=10B)",
+    "verification_note": "Toan bo model duoi day da duoc test goi API THAT (khong chi doc trang catalog) luc build (08/2026). Nhieu model liet ke tren trang web nhung tra 404 khi goi that (VD google/gemma-2-9b-it va mistralai/mistral-7b-instruct-v0.3 tren OpenRouter, qwen/qwen3.5-9b bi treo vo han) nen khong dua vao chain.",
+    "provider_fallback_chain": [
+      {
+        "rank": 1,
+        "provider": "OpenRouter",
+        "model_slug": "qwen/qwen-2.5-7b-instruct",
+        "param_size": "7B",
+        "api_key_env": "OPENROUTER_API_KEY"
+      },
+      {
+        "rank": 2,
+        "provider": "OpenRouter",
+        "model_slug": "meta-llama/llama-3.1-8b-instruct",
+        "param_size": "8B",
+        "api_key_env": "OPENROUTER_API_KEY"
+      },
+      {
+        "rank": 3,
+        "provider": "OpenRouter",
+        "model_slug": "meta-llama/llama-3.2-3b-instruct",
+        "param_size": "3B",
+        "api_key_env": "OPENROUTER_API_KEY"
+      },
+      {
+        "rank": 4,
+        "provider": "NVIDIA NIM",
+        "model_slug": "meta/llama-3.1-8b-instruct",
+        "param_size": "8B",
+        "api_key_env": "NVIDIA_NIM_API_KEY"
+      },
+      {
+        "rank": 5,
+        "provider": "Groq",
+        "model_slug": "llama-3.1-8b-instant",
+        "param_size": "8B",
+        "api_key_env": "GROQ_API_KEY"
+      }
+    ],
+    "fallback_policy": "Timeout 15s/request; toi da 3 lan retry moi tang; het attempt van loi moi rot xuong tang ke tiep, dung thu tu rank 1->5",
+    "used_by_agents": ["customer_agent", "order_product_agent", "policy_agent"],
+    "usage_note": "LLM chi tao note dien giai cho trace; moi so lieu/ID/quyet dinh nghiep vu duoc tinh bang core/policy_rules.py, khong qua LLM"
+  },
+  "framework": {
+    "orchestration": "LangGraph",
+    "langgraph_version": "1.2.10",
+    "langchain_openai_version": "1.4.1",
+    "pandas_version": "3.0.5",
+    "pydantic_version": "2.13.4"
+  },
+  "runtime": {
+    "language": "Python",
+    "python_version": "3.13.12",
+    "package_manager": "uv",
+    "venv": ".venv"
+  }
+}
