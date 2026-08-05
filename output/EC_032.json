@@ -2,7 +2,10 @@
   "case_id": "EC_032",
   "case_assessment": {
     "primary_issue": "late_delivery_seller",
-    "secondary_issues": [],
+    "secondary_issues": [
+      "multi_item_order",
+      "multiple_categories"
+    ],
     "case_status": "action_required",
     "confidence": 0.9
   },
@@ -22,15 +25,18 @@
     ]
   },
   "customer_context": {
-    "customer_unique_id": "f601160e3ed582278f9956eea7fb67f7",
+    "customer_unique_id": "94431ab24129f0060b53a89cfd62462f",
     "related_order_ids": []
   },
   "product_context": {
     "product_ids": [
-      "a7906a8a69acf5b0cb256882e741896a",
-      "197f7d1d3a8b0bf0c8f0394ff71b574b"
+      "197f7d1d3a8b0bf0c8f0394ff71b574b",
+      "a7906a8a69acf5b0cb256882e741896a"
     ],
-    "category_names": []
+    "category_names": [
+      "construcao_ferramentas_iluminacao",
+      "esporte_lazer"
+    ]
   },
   "delivery_analysis": {
     "delivered_at": "2018-01-02 12:18:43",
@@ -38,12 +44,6 @@
     "carrier_handoff_at": "2017-12-20 21:13:05",
     "delivery_variance_hours": 108.31,
     "seller_handoff_analysis": [
-      {
-        "seller_id": "76d5af76d0271110f9af36c92573f765",
-        "shipping_limit_at": "2017-12-12 21:52:51",
-        "handoff_variance_hours": 191.34,
-        "late_handoff": true
-      },
       {
         "seller_id": "76d5af76d0271110f9af36c92573f765",
         "shipping_limit_at": "2017-12-12 21:52:51",
@@ -70,7 +70,7 @@
   "root_cause_analysis": {
     "ranked_causes": [
       {
-        "cause_code": "late_delivery_seller",
+        "cause_code": "SELLER_HANDOFF_AFTER_LIMIT",
         "rank": 1
       }
     ],
@@ -86,7 +86,8 @@
     "item:d3782eb2976abf986175941c51364aab:1",
     "item:d3782eb2976abf986175941c51364aab:2",
     "d3782eb2976abf986175941c51364aab:1",
-    "seller:76d5af76d0271110f9af36c92573f765"
+    "seller:76d5af76d0271110f9af36c92573f765",
+    "policy:SELLER_HANDOFF_AFTER_LIMIT"
   ],
   "financial_resolution": {
     "currency": "BRL",
@@ -94,6 +95,7 @@
   },
   "resolution_actions": [
     "refund_freight",
-    "review_seller_handoff"
+    "review_seller_handoff",
+    "verify_refund_completion"
   ]
 }

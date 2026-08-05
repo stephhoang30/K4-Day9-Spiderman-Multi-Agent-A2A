@@ -42,10 +42,18 @@ class DeliveryAgent:
 			delta = delivered - estimated
 			delivery_variance = round(delta.total_seconds() / 3600.0, 2)
 
+		seller_limits = {}
+		for it in items:
+			sid = it.get("seller_id")
+			limit_str = it.get("shipping_limit_date")
+			limit_dt = parse_dt(limit_str)
+			if sid and limit_dt:
+				if sid not in seller_limits or limit_dt < seller_limits[sid][1]:
+					seller_limits[sid] = (limit_str, limit_dt)
+
 		seller_analysis = []
 		late_ids = []
-		for it in items:
-			ship_limit = parse_dt(it.get("shipping_limit_date"))
+		for sid, (limit_str, ship_limit) in seller_limits.items():
 			carrier_handoff = parse_dt(order.get("order_delivered_carrier_date"))
 			handoff_variance = None
 			late = False
@@ -55,14 +63,14 @@ class DeliveryAgent:
 				late = handoff_variance > 0
 			seller_analysis.append(
 				{
-					"seller_id": it.get("seller_id"),
-					"shipping_limit_at": it.get("shipping_limit_date"),
+					"seller_id": sid,
+					"shipping_limit_at": limit_str,
 					"handoff_variance_hours": handoff_variance,
 					"late_handoff": late,
 				}
 			)
 			if late:
-				late_ids.append(it.get("seller_id"))
+				late_ids.append(sid)
 
 		def norm_str(x):
 			return x if isinstance(x, str) else None

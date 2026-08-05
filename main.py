@@ -42,16 +42,6 @@ def main():
     db = DataLoader('data')
     repo = build_repositories(db)
 
-    coordinator = Coordinator(
-        repository=repo,
-        customer_agent=CustomerAgent(repo, use_llm=True),
-        order_agent=OrderAgent(repo, use_llm=True),
-        payment_agent=PaymentAgent(repo, use_llm=True),
-        delivery_agent=DeliveryAgent(repo, use_llm=True),
-        policy_agent=PolicyAgent(),
-        verifier_agent=VerifierAgent(use_llm=True),
-    )
-
     input_dir = Path('input')
     output_dir = Path('output')
 
@@ -62,13 +52,36 @@ def main():
     else:
         files = sorted(input_dir.glob('EC_*.json'))[:1]
 
-    for case_file in files:
+    trace_file = Path('trace.jsonl')
+    # clear old trace file
+    if trace_file.exists():
+        trace_file.unlink()
+
+    def process_case(case_file):
         case = load_case(case_file)
+        # Create fresh agents per thread to be safe if they ever held state (they don't currently, but safe practice)
+        coordinator = Coordinator(
+            repository=repo,
+            customer_agent=CustomerAgent(repo, use_llm=False),
+            order_agent=OrderAgent(repo, use_llm=False),
+            payment_agent=PaymentAgent(repo, use_llm=False),
+            delivery_agent=DeliveryAgent(repo, use_llm=False),
+            policy_agent=PolicyAgent(use_llm=False),
+            verifier_agent=VerifierAgent(use_llm=False),
+        )
         try:
             result = coordinator.run(case)
             save_result(result, output_dir)
+            with open(trace_file, 'a', encoding='utf-8') as tf:
+                trace_obj = {"input": case, "output": result}
+                tf.write(json.dumps(trace_obj, ensure_ascii=False) + '\n')
+            print(f"Success: {case_file.name}")
         except Exception as e:
-            print(f"Error processing {case_file}: {e}")
+            print(f"Error processing {case_file.name}: {e}")
+
+    from concurrent.futures import ThreadPoolExecutor
+    with ThreadPoolExecutor(max_workers=10) as executor:
+        executor.map(process_case, files)
 
 
 if __name__ == '__main__':

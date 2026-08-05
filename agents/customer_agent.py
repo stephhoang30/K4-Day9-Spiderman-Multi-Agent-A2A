@@ -22,11 +22,18 @@ class CustomerAgent:
 		if not order:
 			return result
 		customer_id = order.get('customer_id')
-		result['customer_unique_id'] = order.get('customer_id')
-		customers_orders = self.repo.loader.orders
-		related = customers_orders[customers_orders['customer_id'] == customer_id]['order_id'].tolist()
-		related = [o for o in related if o != claimed_order]
-		result['related_order_ids'] = related[:5]
+		customer = self.repo.get_customer(customer_id)
+		if customer:
+			customer_unique_id = customer.get('customer_unique_id')
+			result['customer_unique_id'] = customer_unique_id
+			
+			customers_df = self.repo.loader.customers
+			same_person_cids = customers_df[customers_df['customer_unique_id'] == customer_unique_id]['customer_id'].tolist()
+			
+			orders_df = self.repo.loader.orders
+			related = orders_df[orders_df['customer_id'].isin(same_person_cids)]['order_id'].tolist()
+			related = [o for o in related if o != claimed_order]
+			result['related_order_ids'] = related[:5]
 		return result
 
 	def analyze(self, input_case: Dict[str, Any]) -> Dict[str, Any]:

@@ -2,7 +2,10 @@
   "case_id": "EC_020",
   "case_assessment": {
     "primary_issue": "late_delivery_seller",
-    "secondary_issues": [],
+    "secondary_issues": [
+      "multi_item_order",
+      "repeat_customer"
+    ],
     "case_status": "action_required",
     "confidence": 0.9
   },
@@ -23,16 +26,18 @@
     ]
   },
   "customer_context": {
-    "customer_unique_id": "e50355d012ea4541a82a891e41429b8d",
-    "related_order_ids": []
+    "customer_unique_id": "0dc81b520ef7db9cb44bb075e129dcf8",
+    "related_order_ids": [
+      "1fc147ecded099d8acf876cfaf66f731"
+    ]
   },
   "product_context": {
     "product_ids": [
-      "3eef0cb94ba82de806bb30ab743c7655",
-      "3eef0cb94ba82de806bb30ab743c7655",
       "3eef0cb94ba82de806bb30ab743c7655"
     ],
-    "category_names": []
+    "category_names": [
+      "moveis_escritorio"
+    ]
   },
   "delivery_analysis": {
     "delivered_at": "2018-03-17 18:45:30",
@@ -40,18 +45,6 @@
     "carrier_handoff_at": "2018-02-19 17:18:48",
     "delivery_variance_hours": 234.76,
     "seller_handoff_analysis": [
-      {
-        "seller_id": "7c67e1448b00f6e969d365cea6b010ab",
-        "shipping_limit_at": "2018-02-13 04:30:43",
-        "handoff_variance_hours": 156.8,
-        "late_handoff": true
-      },
-      {
-        "seller_id": "7c67e1448b00f6e969d365cea6b010ab",
-        "shipping_limit_at": "2018-02-13 04:30:43",
-        "handoff_variance_hours": 156.8,
-        "late_handoff": true
-      },
       {
         "seller_id": "7c67e1448b00f6e969d365cea6b010ab",
         "shipping_limit_at": "2018-02-13 04:30:43",
@@ -78,7 +71,7 @@
   "root_cause_analysis": {
     "ranked_causes": [
       {
-        "cause_code": "late_delivery_seller",
+        "cause_code": "SELLER_HANDOFF_AFTER_LIMIT",
         "rank": 1
       }
     ],
@@ -95,7 +88,8 @@
     "item:4f3f48cbedce0c316c688af6fc7e9c56:2",
     "item:4f3f48cbedce0c316c688af6fc7e9c56:3",
     "4f3f48cbedce0c316c688af6fc7e9c56:1",
-    "seller:7c67e1448b00f6e969d365cea6b010ab"
+    "seller:7c67e1448b00f6e969d365cea6b010ab",
+    "policy:SELLER_HANDOFF_AFTER_LIMIT"
   ],
   "financial_resolution": {
     "currency": "BRL",
@@ -103,6 +97,7 @@
   },
   "resolution_actions": [
     "refund_freight",
-    "review_seller_handoff"
+    "review_seller_handoff",
+    "verify_refund_completion"
   ]
 }

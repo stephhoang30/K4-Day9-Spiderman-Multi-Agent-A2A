@@ -2,7 +2,9 @@
   "case_id": "EC_047",
   "case_assessment": {
     "primary_issue": "canceled_order_paid",
-    "secondary_issues": [],
+    "secondary_issues": [
+      "repeat_customer"
+    ],
     "case_status": "action_required",
     "confidence": 0.9
   },
@@ -21,14 +23,18 @@
     ]
   },
   "customer_context": {
-    "customer_unique_id": "f530197ea86ced9488a03d055e118ebf",
-    "related_order_ids": []
+    "customer_unique_id": "0058f300f57d7b93c477a131a59b36c3",
+    "related_order_ids": [
+      "81a93b2fa39e104b865b2bc471c16008"
+    ]
   },
   "product_context": {
     "product_ids": [
       "6bd248f93425ceeb625a8a97e2404112"
     ],
-    "category_names": []
+    "category_names": [
+      "papelaria"
+    ]
   },
   "delivery_analysis": {
     "delivered_at": null,
@@ -60,7 +66,7 @@
   "root_cause_analysis": {
     "ranked_causes": [
       {
-        "cause_code": "canceled_order_paid",
+        "cause_code": "ORDER_CANCELED_AFTER_PAYMENT",
         "rank": 1
       }
     ],
@@ -75,13 +81,15 @@
     "order:2cfc79d9582e9135c0a9b61fa60e6b21",
     "item:2cfc79d9582e9135c0a9b61fa60e6b21:1",
     "2cfc79d9582e9135c0a9b61fa60e6b21:1",
-    "seller:OLIST_PLATFORM"
+    "seller:OLIST_PLATFORM",
+    "policy:ORDER_CANCELED_AFTER_PAYMENT"
   ],
   "financial_resolution": {
     "currency": "BRL",
     "recommended_refund_brl": 79.56
   },
   "resolution_actions": [
-    "issue_full_refund"
+    "issue_full_refund",
+    "verify_refund_completion"
   ]
 }

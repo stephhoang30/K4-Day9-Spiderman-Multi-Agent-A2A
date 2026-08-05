@@ -23,38 +23,48 @@ class PolicyAgent:
 
 		order = order_ctx.get('order') if order_ctx else None
 		if not order:
-			return {'primary_issue': None, 'actions': [], 'refund': None, 'responsible': [], 'evidence': [], 'confidence': 0.0}
+			return {'primary_issue': None, 'actions': [], 'refund': None, 'responsible': [], 'evidence': [], 'confidence': 0.0, 'cause_code': None}
 
 		payment_total = payment_ctx.get('payment_total_brl')
+		order_status = order.get('order_status')
+		dv = delivery_ctx.get('delivery_variance_hours')
+		late_sellers = delivery_ctx.get('late_handoff_seller_ids') or []
 
-		if order.get('order_status') in ('canceled',) and (payment_total or 0) > 0:
+		if order_status == 'canceled' and (payment_total or 0) > 0:
 			primary = 'canceled_order_paid'
+			cause_code = 'ORDER_CANCELED_AFTER_PAYMENT'
 			refund_amount = payment_total
 			actions = ['issue_full_refund']
 			responsible = [{'party_type': 'platform', 'party_id': 'OLIST_PLATFORM'}]
-		else:
-			dv = delivery_ctx.get('delivery_variance_hours')
-			late_sellers = delivery_ctx.get('late_handoff_seller_ids') or []
-			if dv is not None and dv > 0:
-				if late_sellers:
-					primary = 'late_delivery_seller'
-					refund_amount = payment_ctx.get('freight_total_brl')
-					actions = ['refund_freight', 'review_seller_handoff']
-					responsible = [{'party_type': 'seller', 'party_id': sid} for sid in late_sellers]
-				else:
-					primary = 'late_delivery_logistics'
-					refund_amount = payment_ctx.get('freight_total_brl')
-					actions = ['refund_freight', 'review_carrier_delay']
-					responsible = [{'party_type': 'logistics_provider', 'party_id': 'LOGISTICS_PROVIDER'}]
+		elif order_status == 'unavailable' and (payment_total or 0) > 0:
+			primary = 'unavailable_order_paid'
+			cause_code = 'ORDER_UNAVAILABLE_AFTER_PAYMENT'
+			refund_amount = payment_total
+			actions = ['issue_full_refund']
+			responsible = [{'party_type': 'platform', 'party_id': 'OLIST_PLATFORM'}]
+		elif dv is not None and dv > 0:
+			if late_sellers:
+				primary = 'late_delivery_seller'
+				cause_code = 'SELLER_HANDOFF_AFTER_LIMIT'
+				refund_amount = payment_ctx.get('freight_total_brl')
+				actions = ['refund_freight', 'review_seller_handoff']
+				responsible = [{'party_type': 'seller', 'party_id': sid} for sid in late_sellers]
 			else:
-				if len(payment_ctx.get('payment_ids', [])) >= 2 and payment_ctx.get('reconciled'):
-					primary = 'valid_split_payment'
-					actions = ['explain_valid_split_payment']
-					refund_amount = 0
-				else:
-					primary = 'unsupported_late_claim'
-					actions = ['reject_late_refund']
-					refund_amount = 0
+				primary = 'late_delivery_logistics'
+				cause_code = 'CARRIER_DELIVERED_AFTER_ESTIMATE'
+				refund_amount = payment_ctx.get('freight_total_brl')
+				actions = ['refund_freight', 'review_carrier_delay']
+				responsible = [{'party_type': 'logistics_provider', 'party_id': 'LOGISTICS_PROVIDER'}]
+		elif len(payment_ctx.get('payment_ids', [])) >= 2 and payment_ctx.get('reconciled'):
+			primary = 'valid_split_payment'
+			cause_code = 'MULTIPLE_PAYMENTS_RECONCILED'
+			actions = ['explain_valid_split_payment']
+			refund_amount = 0
+		else:
+			primary = 'unsupported_late_claim'
+			cause_code = 'DELIVERY_WITHIN_ESTIMATE'
+			actions = ['reject_late_refund']
+			refund_amount = 0
 
 		oid = order.get('order_id')
 		if oid:
@@ -65,6 +75,9 @@ class PolicyAgent:
 			evidence.append(pid)
 		for s in responsible[:3]:
 			evidence.append(f"seller:{s.get('party_id')}")
+		if cause_code:
+			evidence.append(f'policy:{cause_code}')
+
 
 		confidence = 0.9 if primary and primary != 'unsupported_late_claim' else 0.6
 
@@ -75,6 +88,7 @@ class PolicyAgent:
 			'responsible': responsible,
 			'evidence': evidence,
 			'confidence': confidence,
+			'cause_code': cause_code,
 		}
 
 	def decide(self, order_ctx: Dict[str, Any], payment_ctx: Dict[str, Any], delivery_ctx: Dict[str, Any]) -> Dict[str, Any]:

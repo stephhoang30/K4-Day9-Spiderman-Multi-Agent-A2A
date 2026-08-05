@@ -2,7 +2,10 @@
   "case_id": "EC_016",
   "case_assessment": {
     "primary_issue": "late_delivery_logistics",
-    "secondary_issues": [],
+    "secondary_issues": [
+      "split_payment",
+      "repeat_customer"
+    ],
     "case_status": "action_required",
     "confidence": 0.9
   },
@@ -23,14 +26,18 @@
     ]
   },
   "customer_context": {
-    "customer_unique_id": "6430b9e20f8b2acf27b7cb72406d0c87",
-    "related_order_ids": []
+    "customer_unique_id": "7b08fc11e1aacd85ef2845c12a9ddb81",
+    "related_order_ids": [
+      "4c8eac76de32572cebc64aca0f263e2a"
+    ]
   },
   "product_context": {
     "product_ids": [
       "6d1d611877ca6fe8901e27ea00df988b"
     ],
-    "category_names": []
+    "category_names": [
+      "brinquedos"
+    ]
   },
   "delivery_analysis": {
     "delivered_at": "2018-03-23 19:38:52",
@@ -64,7 +71,7 @@
   "root_cause_analysis": {
     "ranked_causes": [
       {
-        "cause_code": "late_delivery_logistics",
+        "cause_code": "CARRIER_DELIVERED_AFTER_ESTIMATE",
         "rank": 1
       }
     ],
@@ -81,7 +88,8 @@
     "9c9353e8fd52f68f8442e580b5f2bba6:3",
     "9c9353e8fd52f68f8442e580b5f2bba6:1",
     "9c9353e8fd52f68f8442e580b5f2bba6:2",
-    "seller:LOGISTICS_PROVIDER"
+    "seller:LOGISTICS_PROVIDER",
+    "policy:CARRIER_DELIVERED_AFTER_ESTIMATE"
   ],
   "financial_resolution": {
     "currency": "BRL",
@@ -89,6 +97,8 @@
   },
   "resolution_actions": [
     "refund_freight",
-    "review_carrier_delay"
+    "review_carrier_delay",
+    "verify_refund_completion",
+    "verify_payment_allocation"
   ]
 }

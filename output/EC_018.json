@@ -2,7 +2,10 @@
   "case_id": "EC_018",
   "case_assessment": {
     "primary_issue": "unsupported_late_claim",
-    "secondary_issues": [],
+    "secondary_issues": [
+      "multi_item_order",
+      "multi_seller_order"
+    ],
     "case_status": "no_action",
     "confidence": 0.6
   },
@@ -15,15 +18,15 @@
       "f396e1280028fa9c8c83111abee5f2e9:2"
     ],
     "seller_ids": [
-      "ccc4bbb5f32a6ab2b7066a4130f114e3",
-      "f7ba60f8c3f99e7ee4042fdef03b70c4"
+      "f7ba60f8c3f99e7ee4042fdef03b70c4",
+      "ccc4bbb5f32a6ab2b7066a4130f114e3"
     ],
     "payment_ids": [
       "f396e1280028fa9c8c83111abee5f2e9:1"
     ]
   },
   "customer_context": {
-    "customer_unique_id": "20f5a1cf347e797ab4f304906b1557b3",
+    "customer_unique_id": "664770508f06c0c2fa1c37fed04a6dd7",
     "related_order_ids": []
   },
   "product_context": {
@@ -31,7 +34,9 @@
       "6cdd53843498f92890544667809f1595",
       "9b1954fdd0f9b4ef4ee2d267ac9de4bd"
     ],
-    "category_names": []
+    "category_names": [
+      "beleza_saude"
+    ]
   },
   "delivery_analysis": {
     "delivered_at": "2018-07-23 15:51:06",
@@ -69,7 +74,7 @@
   "root_cause_analysis": {
     "ranked_causes": [
       {
-        "cause_code": "unsupported_late_claim",
+        "cause_code": "DELIVERY_WITHIN_ESTIMATE",
         "rank": 1
       }
     ],
@@ -79,13 +84,15 @@
     "order:f396e1280028fa9c8c83111abee5f2e9",
     "item:f396e1280028fa9c8c83111abee5f2e9:1",
     "item:f396e1280028fa9c8c83111abee5f2e9:2",
-    "f396e1280028fa9c8c83111abee5f2e9:1"
+    "f396e1280028fa9c8c83111abee5f2e9:1",
+    "policy:DELIVERY_WITHIN_ESTIMATE"
   ],
   "financial_resolution": {
     "currency": "BRL",
     "recommended_refund_brl": 0.0
   },
   "resolution_actions": [
-    "reject_late_refund"
+    "reject_late_refund",
+    "coordinate_multi_seller_case"
   ]
 }

@@ -2,7 +2,10 @@
   "case_id": "EC_019",
   "case_assessment": {
     "primary_issue": "late_delivery_seller",
-    "secondary_issues": [],
+    "secondary_issues": [
+      "multi_item_order",
+      "repeat_customer"
+    ],
     "case_status": "action_required",
     "confidence": 0.9
   },
@@ -22,15 +25,19 @@
     ]
   },
   "customer_context": {
-    "customer_unique_id": "f83ebf1a13178e0c7c5c6cee2f411dce",
-    "related_order_ids": []
+    "customer_unique_id": "e3301490c373db9263c15a73172d0c6f",
+    "related_order_ids": [
+      "3ce16e50c1842ad30631811796a31afc",
+      "c7c28a159a907d1d0ff580856daffa72"
+    ]
   },
   "product_context": {
     "product_ids": [
-      "f4d18451e6c35980e6898e36dfd6fb55",
       "f4d18451e6c35980e6898e36dfd6fb55"
     ],
-    "category_names": []
+    "category_names": [
+      "cama_mesa_banho"
+    ]
   },
   "delivery_analysis": {
     "delivered_at": "2017-05-22 15:25:48",
@@ -38,12 +45,6 @@
     "carrier_handoff_at": "2017-05-02 13:54:14",
     "delivery_variance_hours": 303.43,
     "seller_handoff_analysis": [
-      {
-        "seller_id": "4a3ca9315b744ce9f8e9374361493884",
-        "shipping_limit_at": "2017-04-27 12:36:44",
-        "handoff_variance_hours": 121.29,
-        "late_handoff": true
-      },
       {
         "seller_id": "4a3ca9315b744ce9f8e9374361493884",
         "shipping_limit_at": "2017-04-27 12:36:44",
@@ -70,7 +71,7 @@
   "root_cause_analysis": {
     "ranked_causes": [
       {
-        "cause_code": "late_delivery_seller",
+        "cause_code": "SELLER_HANDOFF_AFTER_LIMIT",
         "rank": 1
       }
     ],
@@ -86,7 +87,8 @@
     "item:a4e90af1c84c4455c7c4c65293ae2c78:1",
     "item:a4e90af1c84c4455c7c4c65293ae2c78:2",
     "a4e90af1c84c4455c7c4c65293ae2c78:1",
-    "seller:4a3ca9315b744ce9f8e9374361493884"
+    "seller:4a3ca9315b744ce9f8e9374361493884",
+    "policy:SELLER_HANDOFF_AFTER_LIMIT"
   ],
   "financial_resolution": {
     "currency": "BRL",
@@ -94,6 +96,7 @@
   },
   "resolution_actions": [
     "refund_freight",
-    "review_seller_handoff"
+    "review_seller_handoff",
+    "verify_refund_completion"
   ]
 }

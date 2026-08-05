@@ -2,7 +2,10 @@
   "case_id": "EC_017",
   "case_assessment": {
     "primary_issue": "late_delivery_logistics",
-    "secondary_issues": [],
+    "secondary_issues": [
+      "multi_item_order",
+      "repeat_customer"
+    ],
     "case_status": "action_required",
     "confidence": 0.9
   },
@@ -23,16 +26,18 @@
     ]
   },
   "customer_context": {
-    "customer_unique_id": "a3a70ea035d8bbbbac5749753bd89f2c",
-    "related_order_ids": []
+    "customer_unique_id": "3d50a44231c2a153219cef76ee3e445d",
+    "related_order_ids": [
+      "fdaf98feac227eb978d8f33f36e0231d"
+    ]
   },
   "product_context": {
     "product_ids": [
-      "4439198baadf8e8dcb009f990091179e",
-      "4439198baadf8e8dcb009f990091179e",
       "4439198baadf8e8dcb009f990091179e"
     ],
-    "category_names": []
+    "category_names": [
+      "brinquedos"
+    ]
   },
   "delivery_analysis": {
     "delivered_at": "2018-04-11 19:56:32",
@@ -40,18 +45,6 @@
     "carrier_handoff_at": "2018-02-26 21:39:30",
     "delivery_variance_hours": 547.94,
     "seller_handoff_analysis": [
-      {
-        "seller_id": "8fec2e460530482132c436cfb5439925",
-        "shipping_limit_at": "2018-03-02 02:50:39",
-        "handoff_variance_hours": -77.19,
-        "late_handoff": false
-      },
-      {
-        "seller_id": "8fec2e460530482132c436cfb5439925",
-        "shipping_limit_at": "2018-03-02 02:50:39",
-        "handoff_variance_hours": -77.19,
-        "late_handoff": false
-      },
       {
         "seller_id": "8fec2e460530482132c436cfb5439925",
         "shipping_limit_at": "2018-03-02 02:50:39",
@@ -76,7 +69,7 @@
   "root_cause_analysis": {
     "ranked_causes": [
       {
-        "cause_code": "late_delivery_logistics",
+        "cause_code": "CARRIER_DELIVERED_AFTER_ESTIMATE",
         "rank": 1
       }
     ],
@@ -93,7 +86,8 @@
     "item:3c5939ce763419f5942f27acffd072e6:2",
     "item:3c5939ce763419f5942f27acffd072e6:3",
     "3c5939ce763419f5942f27acffd072e6:1",
-    "seller:LOGISTICS_PROVIDER"
+    "seller:LOGISTICS_PROVIDER",
+    "policy:CARRIER_DELIVERED_AFTER_ESTIMATE"
   ],
   "financial_resolution": {
     "currency": "BRL",
@@ -101,6 +95,7 @@
   },
   "resolution_actions": [
     "refund_freight",
-    "review_carrier_delay"
+    "review_carrier_delay",
+    "verify_refund_completion"
   ]
 }

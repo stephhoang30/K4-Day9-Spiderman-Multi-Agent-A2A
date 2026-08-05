@@ -2,7 +2,10 @@
   "case_id": "EC_002",
   "case_assessment": {
     "primary_issue": "late_delivery_seller",
-    "secondary_issues": [],
+    "secondary_issues": [
+      "split_payment",
+      "repeat_customer"
+    ],
     "case_status": "action_required",
     "confidence": 0.9
   },
@@ -22,14 +25,18 @@
     ]
   },
   "customer_context": {
-    "customer_unique_id": "6f94b1ea17a3f9a486ba749dc9b72959",
-    "related_order_ids": []
+    "customer_unique_id": "ef3b6ab8a1704ead096adbcdee78284b",
+    "related_order_ids": [
+      "d4b3b00396bf3d72f49b2e06219f385e"
+    ]
   },
   "product_context": {
     "product_ids": [
       "f114a4c35d2bb55ae4ad3c35975fc5e5"
     ],
-    "category_names": []
+    "category_names": [
+      "esporte_lazer"
+    ]
   },
   "delivery_analysis": {
     "delivered_at": "2018-03-31 15:23:33",
@@ -64,7 +71,7 @@
   "root_cause_analysis": {
     "ranked_causes": [
       {
-        "cause_code": "late_delivery_seller",
+        "cause_code": "SELLER_HANDOFF_AFTER_LIMIT",
         "rank": 1
       }
     ],
@@ -80,7 +87,8 @@
     "item:eb09635680fadffb33358e40b05c9029:1",
     "eb09635680fadffb33358e40b05c9029:1",
     "eb09635680fadffb33358e40b05c9029:2",
-    "seller:c3867b4666c7d76867627c2f7fb22e21"
+    "seller:c3867b4666c7d76867627c2f7fb22e21",
+    "policy:SELLER_HANDOFF_AFTER_LIMIT"
   ],
   "financial_resolution": {
     "currency": "BRL",
@@ -88,6 +96,8 @@
   },
   "resolution_actions": [
     "refund_freight",
-    "review_seller_handoff"
+    "review_seller_handoff",
+    "verify_refund_completion",
+    "verify_payment_allocation"
   ]
 }

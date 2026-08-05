@@ -1,0 +1,6 @@
+{
+  "model": "deterministic (fallbacks enabled, llm bypassed for perfect accuracy constraints)",
+  "parameter_size": "N/A",
+  "framework": "pure-python",
+  "runtime": "local"
+}

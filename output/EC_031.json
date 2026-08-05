@@ -1,10 +1,12 @@
 {
   "case_id": "EC_031",
   "case_assessment": {
-    "primary_issue": "unsupported_late_claim",
-    "secondary_issues": [],
-    "case_status": "no_action",
-    "confidence": 0.6
+    "primary_issue": "unavailable_order_paid",
+    "secondary_issues": [
+      "repeat_customer"
+    ],
+    "case_status": "action_required",
+    "confidence": 0.9
   },
   "affected_entities": {
     "order_ids": [
@@ -17,8 +19,10 @@
     ]
   },
   "customer_context": {
-    "customer_unique_id": "186fb45d0f4c178da2ccac34abfa5ec6",
-    "related_order_ids": []
+    "customer_unique_id": "af51e8dd1c30737ba2dd0ece8cfa294d",
+    "related_order_ids": [
+      "b6b73b9c0cab8ac7a2b02a49623d4cfe"
+    ]
   },
   "product_context": {
     "product_ids": [],
@@ -47,21 +51,29 @@
   "root_cause_analysis": {
     "ranked_causes": [
       {
-        "cause_code": "unsupported_late_claim",
+        "cause_code": "ORDER_UNAVAILABLE_AFTER_PAYMENT",
         "rank": 1
       }
     ],
-    "responsible_parties": []
+    "responsible_parties": [
+      {
+        "party_type": "platform",
+        "party_id": "OLIST_PLATFORM"
+      }
+    ]
   },
   "evidence_ids": [
     "order:72fa449394ed9dc9093819f93ca563af",
-    "72fa449394ed9dc9093819f93ca563af:1"
+    "72fa449394ed9dc9093819f93ca563af:1",
+    "seller:OLIST_PLATFORM",
+    "policy:ORDER_UNAVAILABLE_AFTER_PAYMENT"
   ],
   "financial_resolution": {
     "currency": "BRL",
-    "recommended_refund_brl": 0.0
+    "recommended_refund_brl": 138.92
   },
   "resolution_actions": [
-    "reject_late_refund"
+    "issue_full_refund",
+    "verify_refund_completion"
   ]
 }
