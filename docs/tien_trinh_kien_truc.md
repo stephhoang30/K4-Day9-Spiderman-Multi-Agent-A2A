@@ -139,3 +139,24 @@ Policy Agent nhận handoff của Order & Product, Customer, Payment và Deliver
 ### Contract đã chốt
 
 Verifier Agent nhận JSON output ứng viên từ Coordinator và trả `is_valid` cùng danh sách `errors`, không tự sửa nội dung. Các kiểm tra gồm schema top-level, giới hạn array, confidence, timestamp, tính nhất quán phép đối soát tiền, root-cause code và evidence ID tham chiếu entity/policy trong output.
+
+## 2026-08-05 — Coordinator Agent
+
+### Luồng đã chốt
+
+Coordinator nhận case, lấy `claimed_order_id`, rồi gọi theo thứ tự:
+
+```text
+Order & Product
+  ├─ Customer
+  ├─ Payment
+  └─ Delivery
+       ↓
+     Policy
+       ↓
+  dựng output schema
+       ↓
+    Verifier
+```
+
+Coordinator dựng JSON output, cắt các array theo giới hạn README, tạo evidence ID từ entity/policy đã xác định và chỉ trả kết quả khi Verifier xác nhận hợp lệ. Đọc/ghi batch 50 file và trace là trách nhiệm của `orchestration/`.
