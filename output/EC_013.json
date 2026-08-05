@@ -86,8 +86,8 @@
     "order:97e8d3eb8f48e3610beed991e5f32296",
     "item:97e8d3eb8f48e3610beed991e5f32296:1",
     "item:97e8d3eb8f48e3610beed991e5f32296:2",
-    "97e8d3eb8f48e3610beed991e5f32296:1",
-    "97e8d3eb8f48e3610beed991e5f32296:2",
+    "payment:97e8d3eb8f48e3610beed991e5f32296:1",
+    "payment:97e8d3eb8f48e3610beed991e5f32296:2",
     "seller:4d6d651bd7684af3fffabd5f08d12e5a",
     "policy:SELLER_HANDOFF_AFTER_LIMIT"
   ],

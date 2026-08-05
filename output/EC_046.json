@@ -85,8 +85,8 @@
     "order:0e3ec3c17b64c6cc7bc01bba21e7afdf",
     "item:0e3ec3c17b64c6cc7bc01bba21e7afdf:1",
     "item:0e3ec3c17b64c6cc7bc01bba21e7afdf:2",
-    "0e3ec3c17b64c6cc7bc01bba21e7afdf:2",
-    "0e3ec3c17b64c6cc7bc01bba21e7afdf:1",
+    "payment:0e3ec3c17b64c6cc7bc01bba21e7afdf:2",
+    "payment:0e3ec3c17b64c6cc7bc01bba21e7afdf:1",
     "seller:cca3071e3e9bb7d12640c9fbe2301306",
     "policy:SELLER_HANDOFF_AFTER_LIMIT"
   ],

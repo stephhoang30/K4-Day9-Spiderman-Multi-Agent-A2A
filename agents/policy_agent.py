@@ -72,7 +72,7 @@ class PolicyAgent:
 		for it in order_ctx.get('items', [])[:5]:
 			evidence.append(f"item:{oid}:{it.get('order_item_id')}")
 		for pid in payment_ctx.get('payment_ids', [])[:5]:
-			evidence.append(pid)
+			evidence.append(f"payment:{pid}")
 		for s in responsible[:3]:
 			evidence.append(f"seller:{s.get('party_id')}")
 		if cause_code:

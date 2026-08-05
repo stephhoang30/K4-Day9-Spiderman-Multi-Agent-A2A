@@ -85,8 +85,8 @@
     "item:ca0400dec2c292340c373e63b1c2c597:2",
     "item:ca0400dec2c292340c373e63b1c2c597:3",
     "item:ca0400dec2c292340c373e63b1c2c597:4",
-    "ca0400dec2c292340c373e63b1c2c597:1",
-    "ca0400dec2c292340c373e63b1c2c597:2",
+    "payment:ca0400dec2c292340c373e63b1c2c597:1",
+    "payment:ca0400dec2c292340c373e63b1c2c597:2",
     "policy:MULTIPLE_PAYMENTS_RECONCILED"
   ],
   "financial_resolution": {

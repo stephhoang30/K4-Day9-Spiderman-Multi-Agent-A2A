@@ -35,8 +35,8 @@
   },
   "product_context": {
     "product_ids": [
-      "11a10f5773a7da9fb352dfe9e119803b",
-      "9c6d5d4aaea6884ee19112567691a1da"
+      "9c6d5d4aaea6884ee19112567691a1da",
+      "11a10f5773a7da9fb352dfe9e119803b"
     ],
     "category_names": [
       "cama_mesa_banho"
@@ -91,10 +91,10 @@
     "order:ccec592b58e122dc2bfc2305152d9603",
     "item:ccec592b58e122dc2bfc2305152d9603:1",
     "item:ccec592b58e122dc2bfc2305152d9603:2",
-    "ccec592b58e122dc2bfc2305152d9603:1",
-    "ccec592b58e122dc2bfc2305152d9603:4",
-    "ccec592b58e122dc2bfc2305152d9603:3",
-    "ccec592b58e122dc2bfc2305152d9603:2",
+    "payment:ccec592b58e122dc2bfc2305152d9603:1",
+    "payment:ccec592b58e122dc2bfc2305152d9603:4",
+    "payment:ccec592b58e122dc2bfc2305152d9603:3",
+    "payment:ccec592b58e122dc2bfc2305152d9603:2",
     "policy:MULTIPLE_PAYMENTS_RECONCILED"
   ],
   "financial_resolution": {

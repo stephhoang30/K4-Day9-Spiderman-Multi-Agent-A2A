@@ -30,8 +30,8 @@
   },
   "product_context": {
     "product_ids": [
-      "fe4dece0c663ba4f1f9f2d04d3b93a97",
-      "db7e6804f1a8206a7e51c9a741a09d9e"
+      "db7e6804f1a8206a7e51c9a741a09d9e",
+      "fe4dece0c663ba4f1f9f2d04d3b93a97"
     ],
     "category_names": [
       "brinquedos",
@@ -83,7 +83,7 @@
     "order:992cbe3e064cd39f9ccde60a29ffcd3c",
     "item:992cbe3e064cd39f9ccde60a29ffcd3c:1",
     "item:992cbe3e064cd39f9ccde60a29ffcd3c:2",
-    "992cbe3e064cd39f9ccde60a29ffcd3c:1",
+    "payment:992cbe3e064cd39f9ccde60a29ffcd3c:1",
     "seller:LOGISTICS_PROVIDER",
     "policy:CARRIER_DELIVERED_AFTER_ESTIMATE"
   ],

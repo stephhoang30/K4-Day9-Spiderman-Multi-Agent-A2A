@@ -85,8 +85,8 @@
   "evidence_ids": [
     "order:eb09635680fadffb33358e40b05c9029",
     "item:eb09635680fadffb33358e40b05c9029:1",
-    "eb09635680fadffb33358e40b05c9029:1",
-    "eb09635680fadffb33358e40b05c9029:2",
+    "payment:eb09635680fadffb33358e40b05c9029:1",
+    "payment:eb09635680fadffb33358e40b05c9029:2",
     "seller:c3867b4666c7d76867627c2f7fb22e21",
     "policy:SELLER_HANDOFF_AFTER_LIMIT"
   ],

@@ -31,8 +31,8 @@
   },
   "product_context": {
     "product_ids": [
-      "a1a97164f38cfb98511eb68e6b40ad94",
-      "909b87db6cb3a7ab26bd03cc59860136"
+      "909b87db6cb3a7ab26bd03cc59860136",
+      "a1a97164f38cfb98511eb68e6b40ad94"
     ],
     "category_names": [
       "informatica_acessorios"
@@ -84,7 +84,7 @@
     "order:cc8778d76e567b45082b7f52bce23095",
     "item:cc8778d76e567b45082b7f52bce23095:1",
     "item:cc8778d76e567b45082b7f52bce23095:2",
-    "cc8778d76e567b45082b7f52bce23095:1",
+    "payment:cc8778d76e567b45082b7f52bce23095:1",
     "policy:DELIVERY_WITHIN_ESTIMATE"
   ],
   "financial_resolution": {

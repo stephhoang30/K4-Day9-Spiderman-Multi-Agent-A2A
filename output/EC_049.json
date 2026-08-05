@@ -20,8 +20,8 @@
       "7c29f6fa9efcbf410b4bbb9362b9f7c9:3"
     ],
     "seller_ids": [
-      "41b39e28db005d9731d9d485a83b4c38",
       "1900267e848ceeba8fa32d80c1a5f5a8",
+      "41b39e28db005d9731d9d485a83b4c38",
       "d2374cbcbb3ca4ab1086534108cc3ab7"
     ],
     "payment_ids": [
@@ -35,9 +35,9 @@
   },
   "product_context": {
     "product_ids": [
+      "7cfb84c1323fb861a17478de42b1839f",
       "8b45810da2ef9860496d56f62435fc40",
-      "b09790edda54333116f9cf1decc580a1",
-      "7cfb84c1323fb861a17478de42b1839f"
+      "b09790edda54333116f9cf1decc580a1"
     ],
     "category_names": [
       "cama_mesa_banho"
@@ -97,8 +97,8 @@
     "item:7c29f6fa9efcbf410b4bbb9362b9f7c9:1",
     "item:7c29f6fa9efcbf410b4bbb9362b9f7c9:2",
     "item:7c29f6fa9efcbf410b4bbb9362b9f7c9:3",
-    "7c29f6fa9efcbf410b4bbb9362b9f7c9:2",
-    "7c29f6fa9efcbf410b4bbb9362b9f7c9:1",
+    "payment:7c29f6fa9efcbf410b4bbb9362b9f7c9:2",
+    "payment:7c29f6fa9efcbf410b4bbb9362b9f7c9:1",
     "policy:MULTIPLE_PAYMENTS_RECONCILED"
   ],
   "financial_resolution": {

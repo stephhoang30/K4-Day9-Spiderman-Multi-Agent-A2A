@@ -80,7 +80,7 @@
   "evidence_ids": [
     "order:2cfc79d9582e9135c0a9b61fa60e6b21",
     "item:2cfc79d9582e9135c0a9b61fa60e6b21:1",
-    "2cfc79d9582e9135c0a9b61fa60e6b21:1",
+    "payment:2cfc79d9582e9135c0a9b61fa60e6b21:1",
     "seller:OLIST_PLATFORM",
     "policy:ORDER_CANCELED_AFTER_PAYMENT"
   ],

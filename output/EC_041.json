@@ -87,8 +87,8 @@
     "order:614bc59c7d5e038587336616e3198e33",
     "item:614bc59c7d5e038587336616e3198e33:1",
     "item:614bc59c7d5e038587336616e3198e33:2",
-    "614bc59c7d5e038587336616e3198e33:1",
-    "614bc59c7d5e038587336616e3198e33:2",
+    "payment:614bc59c7d5e038587336616e3198e33:1",
+    "payment:614bc59c7d5e038587336616e3198e33:2",
     "policy:MULTIPLE_PAYMENTS_RECONCILED"
   ],
   "financial_resolution": {

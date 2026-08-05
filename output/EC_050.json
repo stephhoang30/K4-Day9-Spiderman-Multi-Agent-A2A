@@ -36,8 +36,8 @@
       "2527d5ced6628c0e47d84293794bc208"
     ],
     "category_names": [
-      "beleza_saude",
-      "esporte_lazer"
+      "esporte_lazer",
+      "beleza_saude"
     ]
   },
   "delivery_analysis": {
@@ -86,7 +86,7 @@
     "order:370098d35ccd8a2af86b57c81ac7d24f",
     "item:370098d35ccd8a2af86b57c81ac7d24f:1",
     "item:370098d35ccd8a2af86b57c81ac7d24f:2",
-    "370098d35ccd8a2af86b57c81ac7d24f:1",
+    "payment:370098d35ccd8a2af86b57c81ac7d24f:1",
     "policy:DELIVERY_WITHIN_ESTIMATE"
   ],
   "financial_resolution": {

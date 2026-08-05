@@ -30,8 +30,8 @@
   },
   "product_context": {
     "product_ids": [
-      "197f7d1d3a8b0bf0c8f0394ff71b574b",
-      "a7906a8a69acf5b0cb256882e741896a"
+      "a7906a8a69acf5b0cb256882e741896a",
+      "197f7d1d3a8b0bf0c8f0394ff71b574b"
     ],
     "category_names": [
       "construcao_ferramentas_iluminacao",
@@ -85,7 +85,7 @@
     "order:d3782eb2976abf986175941c51364aab",
     "item:d3782eb2976abf986175941c51364aab:1",
     "item:d3782eb2976abf986175941c51364aab:2",
-    "d3782eb2976abf986175941c51364aab:1",
+    "payment:d3782eb2976abf986175941c51364aab:1",
     "seller:76d5af76d0271110f9af36c92573f765",
     "policy:SELLER_HANDOFF_AFTER_LIMIT"
   ],

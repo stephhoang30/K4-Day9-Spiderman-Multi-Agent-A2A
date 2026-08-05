@@ -64,7 +64,7 @@
   },
   "evidence_ids": [
     "order:edefc0fa09c98cc491e9d2cf95ee4a5f",
-    "edefc0fa09c98cc491e9d2cf95ee4a5f:1",
+    "payment:edefc0fa09c98cc491e9d2cf95ee4a5f:1",
     "seller:OLIST_PLATFORM",
     "policy:ORDER_UNAVAILABLE_AFTER_PAYMENT"
   ],

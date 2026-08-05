@@ -19,8 +19,8 @@
       "919baca007d9525b6668c18f79a33197:2"
     ],
     "seller_ids": [
-      "c60b801f2d52c7f7f91de00870882a75",
-      "7d13fca15225358621be4086e1eb0964"
+      "7d13fca15225358621be4086e1eb0964",
+      "c60b801f2d52c7f7f91de00870882a75"
     ],
     "payment_ids": [
       "919baca007d9525b6668c18f79a33197:2",
@@ -33,8 +33,8 @@
   },
   "product_context": {
     "product_ids": [
-      "81fa3a54b696e8510a2f5cd69b29337d",
-      "e0d64dcfaa3b6db5c54ca298ae101d05"
+      "e0d64dcfaa3b6db5c54ca298ae101d05",
+      "81fa3a54b696e8510a2f5cd69b29337d"
     ],
     "category_names": [
       "relogios_presentes"
@@ -87,8 +87,8 @@
     "order:919baca007d9525b6668c18f79a33197",
     "item:919baca007d9525b6668c18f79a33197:1",
     "item:919baca007d9525b6668c18f79a33197:2",
-    "919baca007d9525b6668c18f79a33197:2",
-    "919baca007d9525b6668c18f79a33197:1",
+    "payment:919baca007d9525b6668c18f79a33197:2",
+    "payment:919baca007d9525b6668c18f79a33197:1",
     "policy:MULTIPLE_PAYMENTS_RECONCILED"
   ],
   "financial_resolution": {

@@ -85,9 +85,9 @@
   "evidence_ids": [
     "order:9c9353e8fd52f68f8442e580b5f2bba6",
     "item:9c9353e8fd52f68f8442e580b5f2bba6:1",
-    "9c9353e8fd52f68f8442e580b5f2bba6:3",
-    "9c9353e8fd52f68f8442e580b5f2bba6:1",
-    "9c9353e8fd52f68f8442e580b5f2bba6:2",
+    "payment:9c9353e8fd52f68f8442e580b5f2bba6:3",
+    "payment:9c9353e8fd52f68f8442e580b5f2bba6:1",
+    "payment:9c9353e8fd52f68f8442e580b5f2bba6:2",
     "seller:LOGISTICS_PROVIDER",
     "policy:CARRIER_DELIVERED_AFTER_ESTIMATE"
   ],
