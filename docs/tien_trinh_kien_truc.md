@@ -94,3 +94,20 @@ is_repeat_customer
 ```
 
 Agent xác nhận claimed order thực sự thuộc customer được bàn giao. `related_order_ids` giữ thứ tự nguồn CSV và chỉ dùng cho `customer_context`, không được đưa vào `affected_entities`.
+
+## 2026-08-05 — Payment Agent
+
+### Contract đã chốt
+
+Payment Agent nhận `order_id` cùng `items` từ Order & Product Agent, đọc payment row và trả:
+
+```text
+currency = BRL
+payment_ids, payment_count, payment_types, is_split_payment
+item_total_brl, freight_total_brl, expected_total_brl
+payment_total_brl, difference_brl, reconciled
+```
+
+- Dùng `Decimal`; số tiền trả ra làm tròn 2 chữ số thập phân.
+- `is_split_payment` là true khi có ít nhất 2 payment row.
+- Nếu order không có item thì item/freight/expected/difference/reconciled là `null`, theo yêu cầu README.
