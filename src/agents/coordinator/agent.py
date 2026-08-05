@@ -66,6 +66,17 @@ class CoordinatorAgent:
         candidate = self._build_output(
             case_id, order_id, order_product, customer, payment, delivery, policy
         )
+        self._emit(on_handoff, "coordinator", {
+            "event": "output_built",
+            "item_count_raw": len(order_product.items),
+            "item_count_output": len(candidate["affected_entities"]["item_ids"]),
+            "seller_count_raw": len(order_product.seller_ids),
+            "seller_count_output": len(candidate["affected_entities"]["seller_ids"]),
+            "payment_count_raw": payment.payment_count,
+            "payment_count_output": len(candidate["affected_entities"]["payment_ids"]),
+            "related_order_count_raw": customer.related_order_count,
+            "related_order_count_output": len(candidate["customer_context"]["related_order_ids"]),
+        })
         verification = self._verifier.verify(candidate)
         self._emit(on_handoff, "verifier", verification.to_dict())
         if not verification.is_valid:
@@ -114,7 +125,7 @@ class CoordinatorAgent:
                 "primary_issue": policy.primary_issue,
                 "secondary_issues": policy.secondary_issues,
                 "case_status": policy.case_status,
-                "confidence": 1.0,
+                "confidence": CoordinatorAgent._confidence(payment, delivery, order_product.items),
             },
             "affected_entities": {
                 "order_ids": [order_id],
@@ -159,3 +170,22 @@ class CoordinatorAgent:
             },
             "resolution_actions": policy.resolution_actions,
         }
+
+    @staticmethod
+    def _confidence(payment: Any, delivery: Any, items: list[dict[str, Any]]) -> float:
+        """Đánh giá độ đầy đủ của dữ liệu, không dùng confidence cố định."""
+        confidence = 1.0
+        if not items:
+            confidence -= 0.10
+        if payment.reconciled is None:
+            confidence -= 0.15
+        if any(
+            value is None
+            for value in (
+                delivery.delivered_at,
+                delivery.estimated_delivery_at,
+                delivery.carrier_handoff_at,
+            )
+        ):
+            confidence -= 0.15
+        return round(max(0.0, confidence), 2)

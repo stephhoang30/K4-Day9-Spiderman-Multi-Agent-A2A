@@ -166,3 +166,9 @@ Coordinator dựng JSON output, cắt các array theo giới hạn README, tạo
 `BatchRunner` đọc các file `EC_*.json`, gọi Coordinator cho từng case, ghi output cùng tên và ghi đè `logging/trace.jsonl` bằng trace của lượt chạy mới nhất. Trace chứa event bắt đầu/kết thúc/lỗi của Coordinator và handoff từ từng agent.
 
 `logging/metadata.json` được tạo sau lượt chạy, ghi framework, Python runtime, thông tin model (không dùng LLM: `null`, `0`) và số case thành công/lỗi. CLI đặt tại `src/main.py`; mặc định yêu cầu đúng 50 case, `--allow-partial` chỉ dùng khi phát triển.
+
+## 2026-08-05 — Cải thiện giới hạn output và kiểm chứng
+
+- Coordinator vẫn tính trên toàn bộ dữ liệu handoff, chỉ cắt array khi dựng output. Trace ghi số phần tử gốc và số phần tử được đưa ra output để audit việc áp giới hạn.
+- Confidence không cố định: bắt đầu từ `1.0`, giảm khi order không có item, payment không thể reconcile hoặc thiếu timestamp giao hàng.
+- Verifier bổ sung kiểm tra array trùng lặp, tiền tệ/độ chính xác tiền, action chính theo primary issue, case status khớp refund, và evidence bắt buộc cho order/item/payment/seller chịu trách nhiệm/policy.

@@ -18,6 +18,14 @@ ROOT_CAUSES = {
     "MULTIPLE_PAYMENTS_RECONCILED",
     "DELIVERY_WITHIN_ESTIMATE",
 }
+PRIMARY_ACTIONS = {
+    "canceled_order_paid": "issue_full_refund",
+    "unavailable_order_paid": "issue_full_refund",
+    "late_delivery_seller": "refund_freight",
+    "late_delivery_logistics": "refund_freight",
+    "valid_split_payment": "explain_valid_split_payment",
+    "unsupported_late_claim": "reject_late_refund",
+}
 
 
 @dataclass(frozen=True)
@@ -73,6 +81,7 @@ class VerifierAgent:
         self._check_timestamps(candidate, errors)
         self._check_financials(candidate, errors)
         self._check_root_causes(candidate, errors)
+        self._check_actions_and_status(candidate, errors)
         self._check_evidence(candidate, errors)
         return VerificationResult(is_valid=not errors, errors=errors)
 
@@ -96,6 +105,8 @@ class VerifierAgent:
                 errors.append(
                     f"{section + '.' if section else ''}{field} vượt giới hạn {limit}"
                 )
+            elif len(value) != len(set(map(str, value))):
+                errors.append(f"{section + '.' if section else ''}{field} không được trùng lặp")
 
     @staticmethod
     def _check_assessment(candidate: Mapping[str, Any], errors: list[str]) -> None:
@@ -126,6 +137,9 @@ class VerifierAgent:
 
         if payment.get("currency") != "BRL":
             errors.append("payment_reconciliation.currency phải là BRL")
+        financial = candidate["financial_resolution"]
+        if financial.get("currency") != "BRL":
+            errors.append("financial_resolution.currency phải là BRL")
         if any(value is None for value in (item_total, freight_total, expected_total, difference, reconciled)):
             if not all(value is None for value in (item_total, freight_total, expected_total, difference, reconciled)):
                 errors.append("Nhóm trường payment null phải cùng null khi order không có item")
@@ -139,6 +153,10 @@ class VerifierAgent:
             errors.append("expected_total_brl không bằng item_total_brl + freight_total_brl")
         if abs(actual_difference - Decimal(str(difference))) > Decimal("0.01"):
             errors.append("difference_brl không bằng payment_total_brl - expected_total_brl")
+        for value in (item_total, freight_total, expected_total, payment_total, difference):
+            if -Decimal(str(value)).as_tuple().exponent > 2:
+                errors.append("Các tổng tiền payment chỉ được có tối đa 2 chữ số thập phân")
+                break
 
     @staticmethod
     def _check_root_causes(candidate: Mapping[str, Any], errors: list[str]) -> None:
@@ -148,6 +166,23 @@ class VerifierAgent:
                 errors.append("root_cause_analysis có cause_code không hợp lệ")
             if not isinstance(cause.get("rank"), int) or cause["rank"] < 1:
                 errors.append("root_cause_analysis.rank phải là số nguyên dương")
+
+    @staticmethod
+    def _check_actions_and_status(candidate: Mapping[str, Any], errors: list[str]) -> None:
+        assessment = candidate["case_assessment"]
+        primary_issue = assessment.get("primary_issue")
+        actions = candidate["resolution_actions"]
+        expected_action = PRIMARY_ACTIONS.get(primary_issue)
+        if expected_action is None:
+            errors.append("case_assessment.primary_issue không hợp lệ")
+        elif not actions or actions[0] != expected_action:
+            errors.append("resolution_actions phải bắt đầu bằng action chính của primary issue")
+
+        refund = candidate["financial_resolution"].get("recommended_refund_brl")
+        if not isinstance(refund, (int, float)) or refund < 0:
+            errors.append("recommended_refund_brl phải là số không âm")
+        elif (refund > 0) != (assessment.get("case_status") == "action_required"):
+            errors.append("case_status phải khớp với recommended_refund_brl")
 
     @staticmethod
     def _check_evidence(candidate: Mapping[str, Any], errors: list[str]) -> None:
@@ -168,3 +203,19 @@ class VerifierAgent:
         extras = set(evidence_ids) - valid_ids
         if extras:
             errors.append(f"evidence_ids không tham chiếu entity/policy hợp lệ: {sorted(extras)}")
+
+        required = {
+            *(f"order:{value}" for value in affected.get("order_ids", [])),
+            *(f"item:{value}" for value in affected.get("item_ids", [])),
+            *(f"payment:{value}" for value in affected.get("payment_ids", [])),
+            *(f"policy:{cause['cause_code']}" for cause in ranked_causes),
+        }
+        responsible_sellers = [
+            party.get("party_id")
+            for party in candidate["root_cause_analysis"].get("responsible_parties", [])
+            if party.get("party_type") == "seller"
+        ]
+        required.update(f"seller:{seller_id}" for seller_id in responsible_sellers)
+        missing = required - set(evidence_ids)
+        if missing:
+            errors.append(f"evidence_ids thiếu evidence bắt buộc: {sorted(missing)}")
