@@ -6,11 +6,11 @@
 
 | Thông tin       | Nội dung     |
 | --------------- | ------------ |
-| Họ và tên       | [Họ và tên]  |
-| MSSV            | [MSSV]       |
-| Khóa/Lớp        | [K4]         |
+| Họ và tên       | Nguyễn Quý Dương  |
+| MSSV            |   01642    |
+| Khóa/Lớp        | K4        |
 | Vai trò chính   | [Vai trò]    |
-| Ngày hoàn thành | [YYYY-MM-DD] |
+| Ngày hoàn thành | 2026-08-05 |
 
 ## 2. Vai trò và phạm vi công việc
 
@@ -18,16 +18,15 @@
 
 | Module/deliverable | File/hàm phụ trách | Input nhận vào | Output bàn giao   | Trạng thái                            |
 | ------------------ | ------------------ | -------------- | ----------------- | ------------------------------------- |
-| [Phần việc]        | [File/hàm]         | [Input]        | [Output/artifact] | [Hoàn thành/Một phần/Chưa hoàn thành] |
-| [Phần việc]        | [File/hàm]         | [Input]        | [Output/artifact] | [Hoàn thành/Một phần/Chưa hoàn thành] |
+| Model       | `src/llm.py` - `chat()`, `extract_json()`        | MODEL `qwen3.5:4b`-  PROVIDER `ollama`     | extract_json cho `routing` và `verifier_agent` | Hoàn thành |
+| Output generation        | `src/run_all.py`, `src/run_case.py`       | `input/*.json`      | `output/*.json` | Hoàn thành |
 
-Chỉ nhận ownership cho phần bạn trực tiếp thực hiện. Liên hệ rõ phần việc của bạn với đầu vào, đầu ra và các thành viên phụ thuộc vào phần đó.
 
 ### Việc hỗ trợ ngoài phạm vi chính
 
 | Hoạt động                 | Thành viên/module được hỗ trợ | Kết quả                 |
 | ------------------------- | ----------------------------- | ----------------------- |
-| [Debug/tích hợp/tài liệu] | [Tên hoặc module]             | [Kết quả và bằng chứng] |
+| Thiết kế tools | `src/tools.py`           | `delivery_analysis`, `payment_reconciliation`, `customer_context`, `product_context` |
 
 ## 3. Kết quả theo vai trò
 

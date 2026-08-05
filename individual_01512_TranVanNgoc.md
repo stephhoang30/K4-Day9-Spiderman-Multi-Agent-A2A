@@ -4,8 +4,8 @@
 
 | Thông tin | Nội dung |
 |---|---|
-| Họ và tên | Nguyễn Quý Dương |
-| MSSV | [Điền MSSV đầy đủ; 5 số cuối: 01642] |
+| Họ và tên | Trần Văn Ngọc |
+| MSSV | [Điền MSSV đầy đủ; 5 số cuối: 01512] |
 | Khóa/Lớp | K4 |
 | Vai trò chính | Điều phối pipeline, data contract và kiểm chứng output |
 | Ngày hoàn thành | 2026-08-05 |
